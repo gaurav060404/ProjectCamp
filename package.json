@@ -1,0 +1,23 @@
+{
+  "name": "projectcamp",
+  "version": "1.0.0",
+  "description": "A project like BaseCamp where you can manage projects.",
+  "keywords": [
+    "backend",
+    "api",
+    "database",
+    "authentication",
+    "authorization"
+  ],
+  "license": "ISC",
+  "author": "Gourav Singh",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
