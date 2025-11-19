@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
   // Validations
   const user = await User.findOne({
-    $or: [username, email],
+    $or: [{username}, {email}],
   });
   if (user) {
     throw new ApiError(
