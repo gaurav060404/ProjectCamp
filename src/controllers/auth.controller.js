@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
   // Validations
   const user = await User.findOne({
-    $or: [{username}, {email}],
+    $or: [{ username }, { email }],
   });
   if (user) {
     throw new ApiError(
@@ -36,8 +36,9 @@ const registerUser = asyncHandler(async (req, res) => {
   const newUser = await User.create({ username, email, password });
   const { unHashedToken, hashedToken, tokenExpiry } =
     newUser.generateTemporaryToken();
-  const { accessToken, refreshToken } =
-    await generateAccessAndRefreshTokens(newUser);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    newUser._id,
+  );
 
   newUser.emailVerificationToken = hashedToken;
   newUser.emailVerificationExpiry = tokenExpiry;
@@ -66,4 +67,51 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser };
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, username, password } = req.body;
+
+  if (!email && !username) {
+    throw new ApiError(400, "Email or Username is required");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(400, "User is not registered");
+  }
+
+  const isPasswordCorrect = await user.isPasswordCorrect(password);
+  if (!isPasswordCorrect) {
+    throw new ApiError(401, "Password is incorrect");
+  }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    user._id,
+  );
+
+  const loggedInUser = await User.findById(user._id).select(
+    "-password -refreshToken -emailVerificationToken -emailVerificationExpiry",
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged in successfully",
+      ),
+    );
+});
+
+export { registerUser, loginUser };
