@@ -4,7 +4,7 @@ import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { sendEmail, verifyEmailTemplate } from "../utils/mail.js";
 
-const generateAccessAndRefreshTokens = async (userId, email, username) => {
+const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
