@@ -57,6 +57,11 @@ const userSchema = new Schema(
     emailVerificationExpiry: {
       type: Date,
     },
+    role: {
+      type: String,
+      enum: ["member", "admin", "project_admin"],
+      default: "member",
+    },
   },
   {
     timestamps: true,
@@ -79,6 +84,7 @@ userSchema.methods.generateAccessToken = function () {
       _id: this._id,
       email: this.email,
       username: this.username,
+      role: this.role,
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY },
