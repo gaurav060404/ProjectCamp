@@ -52,10 +52,28 @@ const resetPasswordValidator = () => {
   ];
 };
 
+const createProjectValidator = () => {
+  return [
+    body("name").notEmpty().withMessage("Project name is required"),
+    body("description")
+      .notEmpty()
+      .withMessage("Project description is required"),
+    body("members")
+      .optional()
+      .isArray()
+      .withMessage("Members must be an array"),
+    body("members.*")
+      .optional()
+      .isMongoId()
+      .withMessage("Must be a valid MongoDB object id"),
+  ];
+};
+
 export {
   registerUserValidator,
   loginUserValidator,
   changePasswordValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
+  createProjectValidator
 };
