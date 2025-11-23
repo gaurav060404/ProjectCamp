@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/api-response.js";
 import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/async-handler.js";
+import crypto from "crypto";
 import {
   forgotPasswordEmailTemplate,
   sendEmail,
@@ -344,12 +345,13 @@ const resetPassword = asyncHandler(async (req, res) => {
 const changePassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
-  if (!oldPassword) {
-    await ApiError(400, "Old password is required");
-  }
-  if (!newPassword) {
-    await ApiError(400, "New password is required");
-  }
+  // if (!oldPassword) {
+  //   await ApiError(400, "Old password is required");
+  // }
+  // if (!newPassword) {
+  //   await ApiError(400, "New password is required");
+  // } we're commenting this because we don't require controller validations as it is already
+  // defined in the validators section
 
   if (oldPassword === newPassword) {
     throw new ApiError(400, "New password must be different from old password");
