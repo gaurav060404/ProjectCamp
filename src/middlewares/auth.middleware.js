@@ -26,3 +26,10 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Invalid access token");
   }
 });
+
+export const adminMiddleware = asyncHandler(async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    throw new ApiError(401, "Unauthorized access : Admin only");
+  }
+  next();
+});
