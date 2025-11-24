@@ -69,11 +69,22 @@ const createProjectValidator = () => {
   ];
 };
 
+const addMemberValidator = () => {
+  return [
+    body("memberId")
+      .notEmpty()
+      .withMessage("Member id is required")
+      .isMongoId()
+      .withMessage("Member id must be a valid MongoDB ObjectId"),
+  ];
+};
+
 export {
   registerUserValidator,
   loginUserValidator,
   changePasswordValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
-  createProjectValidator
+  createProjectValidator,
+  addMemberValidator,
 };
