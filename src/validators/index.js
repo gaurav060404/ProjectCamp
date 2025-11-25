@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { AvailableUserRoles } from "../utils/constants";
+import { AvailableTaskStatus, AvailableUserRoles } from "../utils/constants.js";
 
 const registerUserValidator = () => {
   return [
@@ -122,6 +122,39 @@ const updateMemberRoleValidator = () => {
   ];
 };
 
+const createTaskValidator = () => {
+  return [
+    body("title")
+      .trim()
+      .notEmpty()
+      .withMessage("Title is required")
+      .isLength({ min: 3, max: 30 })
+      .withMessage(
+        "Title must be at-least 3 characters & maximum 30 characters long",
+      ),
+    body("description")
+      .trim()
+      .notEmpty()
+      .withMessage("Description is required")
+      .isLength({ min: 40, max: 300 })
+      .withMessage(
+        "Description must be at-least 40 characters & maximum 300 characters long",
+      ),
+    body("assigneeId")
+      .trim()
+      .notEmpty()
+      .withMessage("Assignee id is required")
+      .isMongoId()
+      .withMessage("Must be a valid mongodb id"),
+    body("status")
+      .trim()
+      .notEmpty()
+      .withMessage("Status is required")
+      .isIn(AvailableTaskStatus)
+      .withMessage("Task status must be from: todo,in_progress & done"),
+  ];
+};
+
 export {
   registerUserValidator,
   loginUserValidator,
@@ -132,4 +165,5 @@ export {
   addMemberValidator,
   updateProjectValidator,
   updateMemberRoleValidator,
+  createTaskValidator
 };
