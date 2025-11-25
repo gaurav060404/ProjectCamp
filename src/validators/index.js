@@ -1,4 +1,5 @@
 import { body } from "express-validator";
+import { AvailableUserRoles } from "../utils/constants";
 
 const registerUserValidator = () => {
   return [
@@ -116,7 +117,7 @@ const updateMemberRoleValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("New member role is required")
-      .isIn(["admin", "project_admin", "member"])
+      .isIn(AvailableUserRoles)
       .withMessage("Role must be one of : admin, project_admin or member"),
   ];
 };
@@ -130,5 +131,5 @@ export {
   createProjectValidator,
   addMemberValidator,
   updateProjectValidator,
-  updateMemberRoleValidator
+  updateMemberRoleValidator,
 };
