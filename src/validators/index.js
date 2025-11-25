@@ -54,10 +54,16 @@ const resetPasswordValidator = () => {
 
 const createProjectValidator = () => {
   return [
-    body("name").notEmpty().withMessage("Project name is required"),
+    body("name")
+      .notEmpty()
+      .withMessage("Project name is required")
+      .isLength({ max: 20 })
+      .withMessage("Project name cannot be longer than 20 characters"),
     body("description")
       .notEmpty()
-      .withMessage("Project description is required"),
+      .withMessage("Project description is required")
+      .isLength({ max: 600 })
+      .withMessage("Project description cannot be longer than 600 characters"),
     body("members")
       .optional()
       .isArray()
@@ -79,6 +85,42 @@ const addMemberValidator = () => {
   ];
 };
 
+const updateProjectValidator = () => {
+  return [
+    body("newName")
+      .trim()
+      .notEmpty()
+      .withMessage("New project name is required")
+      .isLength({ max: 50 })
+      .withMessage("Project name cannot be longer than 20 characters"),
+    body("newDescription")
+      .trim()
+      .notEmpty()
+      .withMessage("New project description is required")
+      .isLength({ max: 1500 })
+      .withMessage("Project description cannot be longer than 600 characters"),
+    body("newMembers")
+      .optional()
+      .isArray()
+      .withMessage("New members must be an array"),
+    body("members.*")
+      .optional()
+      .isMongoId()
+      .withMessage("Must be a valid MongoDB object id"),
+  ];
+};
+
+const updateMemberRoleValidator = () => {
+  return [
+    body("newRole")
+      .trim()
+      .notEmpty()
+      .withMessage("New member role is required")
+      .isIn(["admin", "project_admin", "member"])
+      .withMessage("Role must be one of : admin, project_admin or member"),
+  ];
+};
+
 export {
   registerUserValidator,
   loginUserValidator,
@@ -87,4 +129,6 @@ export {
   resetPasswordValidator,
   createProjectValidator,
   addMemberValidator,
+  updateProjectValidator,
+  updateMemberRoleValidator
 };
