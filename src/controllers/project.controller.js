@@ -51,11 +51,17 @@ const getMembers = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, {}, "Members are not assigned yet."));
   }
 
+  const members = project.members.map((m) => ({
+    _id: m._id,
+    username: m.username,
+    role: m.role,
+  }));
+
   return res.status(200).json(
     new ApiResponse(
       200,
       {
-        members: project.members,
+        members,
       },
       "Members retrieved successfully",
     ),
@@ -197,8 +203,6 @@ const addProjectMember = asyncHandler(async (req, res) => {
     ),
   );
 });
-
-
 
 export {
   createProject,
