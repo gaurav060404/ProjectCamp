@@ -12,10 +12,14 @@ import {
   getProjectDetails,
   getProjects,
   removeMember,
+  updateMemberRole,
+  updateProject,
 } from "../controllers/project.controller.js";
 import {
   addMemberValidator,
   createProjectValidator,
+  updateMemberRoleValidator,
+  updateProjectValidator,
 } from "../validators/index.js";
 
 const router = Router();
@@ -40,6 +44,24 @@ router
     addMemberValidator(),
     validate,
     addProjectMember,
+  );
+router
+  .route("/:projectId")
+  .put(
+    authMiddleware,
+    adminMiddleware,
+    updateProjectValidator(),
+    validate,
+    updateProject,
+  );
+router
+  .route("/:projectId/members/:userId")
+  .put(
+    authMiddleware,
+    adminMiddleware,
+    updateMemberRoleValidator(),
+    validate,
+    updateMemberRole,
   );
 
 export default router;
