@@ -204,6 +204,67 @@ const addProjectMember = asyncHandler(async (req, res) => {
   );
 });
 
+const updateProject = asyncHandler(async (req, res) => {
+  const { projectId } = req.params;
+  const { newName, newDescription, newMembers } = req.body;
+
+  if (!projectId) {
+    throw new ApiError(400, "Project id is required");
+  }
+
+  const project = await Project.findById(projectId);
+  if (!project) {
+    throw new ApiError(404, "Project Doesn't Exists");
+  }
+
+  if (newName === project.name) {
+    throw new ApiError(400, "New project name must be different");
+  }
+  if (newDescription === project.description) {
+    throw new ApiError(400, "New project description must be different");
+  }
+
+  project.name = newName;
+  project.description = newDescription;
+  project.members = newMembers || [];
+  await project.save({ validateBeforeSave: false });
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        updatedProject: project,
+      },
+      "Project updated successfully",
+    ),
+  );
+});
+
+const updateMemberRole = asyncHandler(async (req, res) => {
+  const { projectId, userId } = req.params;
+  const { newRole } = req.body;
+
+  if (!projectId || !userId) {
+    throw new ApiError(400, "Project id and user id is required");
+  }
+
+  const project = await Project.findById(projectId);
+  if (!project) {
+    throw new ApiError(404, "Project Doesn't Exists");
+  }
+
+  const user = await User.findById(userId);
+  if (!(project.members.some((m) => m.toString() === userId)) || !user) {
+    throw new ApiError(400, "Member Doesn't Exists");
+  }
+  user.role = newRole;
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Member role updated successfully"));
+});
+
 export {
   createProject,
   getProjects,
@@ -212,4 +273,6 @@ export {
   deleteProject,
   removeMember,
   addProjectMember,
+  updateProject,
+  updateMemberRole,
 };
