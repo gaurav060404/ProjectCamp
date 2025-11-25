@@ -28,7 +28,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
 });
 
 export const adminMiddleware = asyncHandler(async (req, res, next) => {
-  if (req.user.role !== "admin") {
+  if (req.user.role === "member") {
     throw new ApiError(401, "Unauthorized access : Admin only");
   }
   next();
