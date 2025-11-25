@@ -33,3 +33,10 @@ export const adminMiddleware = asyncHandler(async (req, res, next) => {
   }
   next();
 });
+
+export const projectAdminMiddleware = asyncHandler(async (req, res, next) => {
+  if (req.user.role !== "project_admin") {
+    throw new ApiError(401, "Unauthorized access : Project Admin only");
+  }
+  next();
+});
