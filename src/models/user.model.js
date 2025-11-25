@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { AvailableUserRoles } from "../utils/constants";
 
 const userSchema = new Schema(
   {
@@ -59,7 +60,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["member", "admin", "project_admin"],
+      enum: AvailableUserRoles,
       default: "member",
     },
   },
