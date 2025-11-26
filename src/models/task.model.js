@@ -29,6 +29,10 @@ const taskSchema = new Schema(
       required: true,
       index: true,
     },
+    files: {
+      type: [String], //cloudinary url
+      default: [],
+    },
   },
   { timestamps: true },
 );
