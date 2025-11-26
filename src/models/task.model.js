@@ -33,6 +33,12 @@ const taskSchema = new Schema(
       type: [String], //cloudinary url
       default: [],
     },
+    subTasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Task"
+      }
+    ]
   },
   { timestamps: true },
 );
