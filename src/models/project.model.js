@@ -20,6 +20,12 @@ const projectSchema = new Schema(
       type: Number,
       default: 0,
     },
+    notes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Note",
+      },
+    ],
   },
   {
     timestamps: true,
