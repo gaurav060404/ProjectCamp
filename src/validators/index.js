@@ -155,6 +155,19 @@ const createTaskValidator = () => {
   ];
 };
 
+const createNoteValidator = () => {
+  return [
+    body("content")
+      .trim()
+      .notEmpty()
+      .withMessage("Content must not be empty")
+      .isLength({ max: 200, min: 30 })
+      .withMessage(
+        "Content length should be at-least 30 and maximum 200 characters long",
+      ),
+  ];
+};
+
 export {
   registerUserValidator,
   loginUserValidator,
@@ -165,5 +178,6 @@ export {
   addMemberValidator,
   updateProjectValidator,
   updateMemberRoleValidator,
-  createTaskValidator
+  createTaskValidator,
+  createNoteValidator,
 };
