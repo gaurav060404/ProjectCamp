@@ -1,9 +1,5 @@
 # Project Camp Backend
 
-A robust and scalable RESTful API for collaborative project management built with Express.js and MongoDB.
-
-## Overview
-
 Project Camp Backend is a comprehensive backend service that enables teams to organize projects, manage tasks with subtasks, maintain project notes, and handle user authentication with role-based access control. It provides a complete project management solution with team collaboration features.
 
 ## Features
