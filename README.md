@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Project Camp Backend
 
 A robust and scalable RESTful API for collaborative project management built with Express.js and MongoDB.
@@ -331,3 +332,6 @@ The API uses consistent error responses in the following format:
 ---
 
 **Last Updated:** January 2026
+=======
+Readme file for ProjectCamp
+>>>>>>> f16ac53687661fffe605bf34d6a7b949f0ef2c57
