@@ -1,5 +1,6 @@
 # Project Camp Backend
 
+![projectcamp](https://github.com/user-attachments/assets/4e2fe8a1-eeb2-4d14-b5a4-1201770084d8)
 Project Camp Backend is a comprehensive backend service that enables teams to organize projects, manage tasks with subtasks, maintain project notes, and handle user authentication with role-based access control. It provides a complete project management solution with team collaboration features.
 
 ## Features
